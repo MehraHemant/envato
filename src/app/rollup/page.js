@@ -14,8 +14,8 @@ import {
   Switch,
 } from "@mui/material";
 import { useState } from "react";
-import { config } from "@/utils/config";
 import CustomizedSnackbars from "../component/snackbar";
+import { config } from "../constant";
 export default function Rollup() {
   const [formData, setFormData] = useState({
     enviroment: "",

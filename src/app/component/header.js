@@ -11,7 +11,7 @@ export default function Header() {
                     <a href="/">
                       <img
                         src="/assets/img/logo/logo.png"
-                        style={{ height: "200px" }}
+                        style={{ height: "150px" }}
                         alt="Logo"
                       />
                     </a>
