@@ -1,5 +1,5 @@
 "use client";
-import { BsCheckCircle, BsCheckCircleFill, BsCircle } from "react-icons/bs";
+import { BsCheckCircleFill, BsCircle } from "react-icons/bs";
 import Footer from "../component/footer";
 import Header from "../component/header";
 import Box from "@mui/material/Box";
@@ -11,19 +11,55 @@ import {
   OutlinedInput,
   Grid,
   IconButton,
-  FormControlLabel,
   Switch,
 } from "@mui/material";
 import { useState } from "react";
 import { config } from "@/utils/config";
+import CustomizedSnackbars from "../component/snackbar";
 export default function Rollup() {
-  const [enviornment, setEnviornment] = useState("");
-  const [framework, setFramework] = useState("");
+  const [formData, setFormData] = useState({
+    enviroment: "",
+    framework: "",
+    rollupName: "",
+    chainId: "",
+  });
+  const [snackbar, setSnackbar] = useState({
+    message: "",
+    severity: "success",
+    open: false,
+  });
   const [integrations, setIntegrations] = useState([]);
-  console.log(integrations);
+  const handleSubmit = async () => {
+    const response = await fetch("/api/rollup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ integrations, ...formData }),
+    });
+    response.json().then((res) => {
+      if (!res.status) {
+        setSnackbar({
+          message: res.message,
+          severity: "error",
+          open: true,
+        });
+      } else {
+        setSnackbar({
+          message: res.message,
+          severity: "success",
+          open: true,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
+    });
+  };
   return (
     <>
       <Header />
+      <CustomizedSnackbars msgData={snackbar} setMsgData={setSnackbar} />
       <Box
         component="section"
         sx={{ p: 2, mx: "auto", mt: 15 }}
@@ -52,6 +88,10 @@ export default function Rollup() {
                     name="name"
                     placeholder="Enter Deployment Name"
                     size="small"
+                    onChange={(e) =>
+                      setFormData({ ...formData, rollupName: e.target.value })
+                    }
+                    value={formData.rollupName}
                     sx={{
                       background: "#222329",
                       borderRadius: 2,
@@ -68,6 +108,10 @@ export default function Rollup() {
                     name="text"
                     placeholder="Preferred Chain ID"
                     size="small"
+                    value={formData.chainId}
+                    onChange={(e) =>
+                      setFormData({ ...formData, chainId: e.target.value })
+                    }
                     sx={{
                       background: "#222329",
                       borderRadius: 2,
@@ -100,7 +144,8 @@ export default function Rollup() {
                 {config.rollup.framework.map((item) => (
                   <Stack
                     sx={{
-                      mixBlendMode: framework != item.name && "difference",
+                      mixBlendMode:
+                        formData.framework != item.name && "difference",
                     }}
                     gap={2}
                     border={"1px solid #686868"}
@@ -108,14 +153,16 @@ export default function Rollup() {
                     width={"90%"}
                     maxWidth={260}
                     borderRadius={3}
-                    onClick={() => setFramework(`${item.name}`)}
+                    onClick={() =>
+                      setFormData({ ...formData, framework: item.name })
+                    }
                   >
                     <Stack
                       direction="row"
                       justifyContent={"space-between"}
                       alignItems={"center"}
                     >
-                      {framework == item.name ? (
+                      {formData.framework == item.name ? (
                         <IconButton
                           sx={{
                             color: "#2272ff",
@@ -178,10 +225,12 @@ export default function Rollup() {
                     py: 1,
                     px: 2,
                     border: "1px solid #505050",
-                    background: enviornment == "mainnet" && "#505050",
-                    color: enviornment == "mainnet" && "white",
+                    background: formData.enviornment == "mainnet" && "#505050",
+                    color: formData.enviroment == "mainnet" && "white",
                   }}
-                  onClick={() => setEnviornment("mainnet")}
+                  onClick={() =>
+                    setFormData({ ...formData, enviroment: "mainnet" })
+                  }
                 >
                   Mainnet
                 </Box>
@@ -193,10 +242,14 @@ export default function Rollup() {
                     px: 2,
                     border: "1px solid #505050",
                     background:
-                      enviornment == "testnet" ? "#505050" : "transparent",
-                    color: enviornment == "testnet" && "white",
+                      formData.enviroment == "testnet"
+                        ? "#505050"
+                        : "transparent",
+                    color: formData.enviroment == "testnet" && "white",
                   }}
-                  onClick={() => setEnviornment("testnet")}
+                  onClick={() =>
+                    setFormData({ ...formData, enviroment: "testnet" })
+                  }
                 >
                   Testnet
                 </Box>
@@ -221,48 +274,47 @@ export default function Rollup() {
                 rollup
               </Typography>
             </Box>
-            <Stack direction={'row'} flexWrap={'wrap'}>
+            <Stack direction={"row"} flexWrap={"wrap"}>
               {/* <Stack direction={"row"} width={'100%'} flexWrap={'wrap'}> */}
-                <Stack
-                  direction={"row"}
-                  justifyContent={"space-between"}
-                  border={"1px solid #686868"}
-                  borderRadius={3}
-                  p={2}
-                  width={250}
-                  alignItems={"center"}
-                  
-                >
-                  {config.rollup.integrations.map((item) => (
-                    <>
-                      <Stack gap={2} direction={"row"} alignItems={"center"}>
-                        <img src={item.icon} />
-                        <Typography variant="subtitle1">{item.name}</Typography>
-                      </Stack>
-                      <Switch
-                        checked={integrations.includes(item.name)}
-                        onChange={() =>
-                          integrations.includes(item.name)
-                            ? setIntegrations(
-                                integrations.filter(
-                                  (items) => items !== item.name
-                                )
+              <Stack
+                direction={"row"}
+                justifyContent={"space-between"}
+                border={"1px solid #686868"}
+                borderRadius={3}
+                p={2}
+                width={250}
+                alignItems={"center"}
+              >
+                {config.rollup.integrations.map((item) => (
+                  <>
+                    <Stack gap={2} direction={"row"} alignItems={"center"}>
+                      <img src={item.icon} />
+                      <Typography variant="subtitle1">{item.name}</Typography>
+                    </Stack>
+                    <Switch
+                      checked={integrations.includes(item.name)}
+                      onChange={() =>
+                        integrations.includes(item.name)
+                          ? setIntegrations(
+                              integrations.filter(
+                                (items) => items !== item.name
                               )
-                            : setIntegrations([...integrations, item.name])
-                        }
-                        name="loading"
-                        color="primary"
-                      />
-                    </>
-                  ))}
-                </Stack>
+                            )
+                          : setIntegrations([...integrations, item.name])
+                      }
+                      name="loading"
+                      color="primary"
+                    />
+                  </>
+                ))}
+              </Stack>
               {/* </Stack> */}
             </Stack>
           </Stack>
         </Box>
         <Stack direction={"row"} justifyContent={"right"} mr={5}>
-          <Button variant="primary" type="submit">
-            submit
+          <Button variant="primary" type="submit" onClick={handleSubmit}>
+            Submit
           </Button>
         </Stack>
       </Box>

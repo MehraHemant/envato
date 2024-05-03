@@ -16,9 +16,8 @@ import { useFormik } from "formik";
 import CustomizedSnackbars from "../component/snackbar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-// import { loginValidationSchema } from "../utils/schema";
 
-const Login = () => {
+const Signup = () => {
   const router = useRouter();
   const [snackbar, setSnackbar] = useState({
     message: "",
@@ -35,7 +34,7 @@ const Login = () => {
   });
 
   async function handleSubmit(values) {
-    const response = await fetch("/api/login", {
+    const response = await fetch("/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +85,7 @@ const Login = () => {
               </Box>
               <Box sx={{ width: "100%", position: "absolute", color: "white" }}>
                 <Box sx={{ maxWidth: "350px", mx: "auto", mt: 25 }}>
-                  <h1>Sign in</h1>
+                  <h1>Sign up</h1>
                   <p style={{ fontSize: "16px" }}>
                     Deploy production-grade & fully-managed OP Stack, Arbitrum
                     or Polygon CDK Rollups including all the web3 infra services
@@ -184,8 +183,9 @@ const Login = () => {
                   </FormControl>
                   <Stack direction="row" justifyContent={"center"}>
                     <p>
-                      Don't have an account? <Link href="/signup">Signup</Link>
+                      Already have an account? <Link href="/login">Login</Link>
                     </p>
+
                     <Button
                       sx={{
                         bgcolor: "#DE135E",
@@ -197,7 +197,7 @@ const Login = () => {
                       endIcon={<AiFillCaretRight />}
                       type="submit"
                     >
-                      Login
+                      Signup
                     </Button>
                   </Stack>
                 </form>
@@ -210,4 +210,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
