@@ -1,4 +1,5 @@
 "use client";
+import { BsCheckCircle, BsCheckCircleFill, BsCircle } from "react-icons/bs";
 import Footer from "../component/footer";
 import Header from "../component/header";
 import Box from "@mui/material/Box";
@@ -7,26 +8,26 @@ import {
   FormControl,
   Typography,
   Stack,
-  FormLabel,
   OutlinedInput,
-  FormHelperText,
-  Checkbox,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
   Grid,
+  IconButton,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import { useState } from "react";
+import { config } from "@/utils/config";
 export default function Rollup() {
   const [enviornment, setEnviornment] = useState("");
-  console.log(enviornment);
+  const [framework, setFramework] = useState("");
+  const [integrations, setIntegrations] = useState([]);
+  console.log(integrations);
   return (
     <>
       <Header />
       <Box
         component="section"
         sx={{ p: 2, mx: "auto", mt: 15 }}
-        width={{ xs: "90%", md: "60%" }}
+        width={{ xs: "90%", md: "70%" }}
       >
         <Box
           component="section"
@@ -37,94 +38,47 @@ export default function Rollup() {
             background: "#16171c",
           }}
         >
-          <Stack direction="row" justifyContent="space-between">
-            <Stack>
+          <Grid container>
+            <Grid item xs={5}>
               <Typography variant="h6">Details</Typography>
               <p>Add your rollup details</p>
-            </Stack>
-            <Stack width={500}>
-              <FormControl sx={{ marginBottom: 2 }}>
-                <OutlinedInput
-                  id="name"
-                  type="text"
-                  name="name"
-                  placeholder="Enter your name"
-                  size="small"
-                  sx={{
-                    background: "#222329",
-                    borderRadius: 2,
-                    p: 0.2,
-                    border: 1,
-                    color: "white",
-                    borderColor: "#505050",
-                  }}
-                />
-              </FormControl>
-              <FormControl sx={{ marginBottom: 2 }}>
-                <OutlinedInput
-                  type="text"
-                  name="text"
-                  placeholder="Chain ID"
-                  size="small"
-                  sx={{
-                    background: "#222329",
-                    borderRadius: 2,
-                    p: 0.2,
-                    border: 1,
-                    color: "white",
-                    borderColor: "#505050",
-                  }}
-                />
-              </FormControl>
-            </Stack>
-          </Stack>
-        </Box>
-        <Box
-          component="section"
-          sx={{
-            p: 3,
-            m: 5,
-            // border: "1px solid grey",
-            borderRadius: 5,
-            background: "#16171c",
-          }}
-        >
-          <Grid container direction="row" justifyContent="space-between">
-            <Grid item xs={6}>
-              <Typography variant="h6">Framework</Typography>
             </Grid>
-            <Grid item xs={6}>
-              <RadioGroup
-                row
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="op"
-                  control={<Radio sx={{ color: "white" }} />}
-                  // sx={{bgcolor:'#222329', border: '1px solid #686868', p: 1, borderRadius: 2}}
-
-                  label={
-                    <img
-                      style={{ borderRadius: "12px" }}
-                      src="assets/img/images/login_3.jpeg"
-                    />
-                  }
-                />
-                <FormControlLabel
-                  value="polygon"
-                  control={<Radio sx={{ color: "white" }} />}
-                  // sx={{bgcolor:'#222329', border: '1px solid #686868', p: 1, borderRadius: 2}}
-
-                  label={
-                    <img
-                      style={{ borderRadius: "12px" }}
-                      src="assets/img/images/login_4.jpeg"
-                    />
-                  }
-                />
-              </RadioGroup>
+            <Grid item xs={7}>
+              <Stack maxWidth={400}>
+                <FormControl sx={{ marginBottom: 2 }}>
+                  <OutlinedInput
+                    id="name"
+                    type="text"
+                    name="name"
+                    placeholder="Enter Deployment Name"
+                    size="small"
+                    sx={{
+                      background: "#222329",
+                      borderRadius: 2,
+                      p: 0.2,
+                      border: 1,
+                      color: "white",
+                      borderColor: "#505050",
+                    }}
+                  />
+                </FormControl>
+                <FormControl sx={{ marginBottom: 2 }}>
+                  <OutlinedInput
+                    type="text"
+                    name="text"
+                    placeholder="Preferred Chain ID"
+                    size="small"
+                    sx={{
+                      background: "#222329",
+                      borderRadius: 2,
+                      p: 0.2,
+                      border: 1,
+                      color: "white",
+                      borderColor: "#505050",
+                    }}
+                  />
+                </FormControl>
+              </Stack>
             </Grid>
           </Grid>
         </Box>
@@ -138,10 +92,84 @@ export default function Rollup() {
           }}
         >
           <Grid container direction="row" justifyContent="space-between">
-            <Grid item xs={6}>
-              <Typography variant="h6">Enviornment</Typography>
+            <Grid item xs={5}>
+              <Typography variant="h6">Framework</Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
+              <Stack flexDirection={"row"} gap={3} flexWrap={"wrap"}>
+                {config.rollup.framework.map((item) => (
+                  <Stack
+                    sx={{
+                      mixBlendMode: framework != item.name && "difference",
+                    }}
+                    gap={2}
+                    border={"1px solid #686868"}
+                    p={2}
+                    width={"90%"}
+                    maxWidth={260}
+                    borderRadius={3}
+                    onClick={() => setFramework(`${item.name}`)}
+                  >
+                    <Stack
+                      direction="row"
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                    >
+                      {framework == item.name ? (
+                        <IconButton
+                          sx={{
+                            color: "#2272ff",
+                            padding: "0px",
+                          }}
+                          disableRipple
+                        >
+                          <BsCheckCircleFill fontSize={20} />
+                        </IconButton>
+                      ) : (
+                        <IconButton
+                          sx={{
+                            background: "#1c1f24",
+                            color: "#686868",
+                            padding: "0px",
+                          }}
+                          disableRipple
+                        >
+                          <BsCircle fontSize={20} />
+                        </IconButton>
+                      )}
+                      <Box component={"img"} width={32} src={item.logo} />
+                    </Stack>
+                    <Typography
+                      color={"white"}
+                      variant="body1"
+                      fontSize={16}
+                      fontWeight={"semibold"}
+                    >
+                      {item.name}
+                    </Typography>
+                    <Typography variant="body2" color={"white"} fontSize={14}>
+                      {item.desc}
+                    </Typography>
+                  </Stack>
+                ))}
+              </Stack>
+            </Grid>
+          </Grid>
+        </Box>
+        <Box
+          component="section"
+          sx={{
+            p: 3,
+            m: 5,
+            borderRadius: 5,
+            background: "#16171c",
+          }}
+        >
+          <Grid container>
+            <Grid item xs={5}>
+              <Typography variant="h6">Environnment</Typography>
+            </Grid>
+            <Grid item xs={7}>
               <Stack direction={"row"} gap={2}>
                 <Box
                   sx={{
@@ -176,10 +204,66 @@ export default function Rollup() {
             </Grid>
           </Grid>
         </Box>
-        <Stack direction={'row'} justifyContent={'right'} mr={5}>
-        <Button variant="primary" type="submit">
-          submit
-        </Button>
+        <Box
+          component="section"
+          sx={{
+            p: 3,
+            m: 5,
+            borderRadius: 5,
+            background: "#16171c",
+          }}
+        >
+          <Stack gap={4}>
+            <Box>
+              <Typography variant="h6">Integrations to include</Typography>
+              <Typography variant="body2">
+                Infrastructure and middleware services to include with your
+                rollup
+              </Typography>
+            </Box>
+            <Stack direction={'row'} flexWrap={'wrap'}>
+              {/* <Stack direction={"row"} width={'100%'} flexWrap={'wrap'}> */}
+                <Stack
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  border={"1px solid #686868"}
+                  borderRadius={3}
+                  p={2}
+                  width={250}
+                  alignItems={"center"}
+                  
+                >
+                  {config.rollup.integrations.map((item) => (
+                    <>
+                      <Stack gap={2} direction={"row"} alignItems={"center"}>
+                        <img src={item.icon} />
+                        <Typography variant="subtitle1">{item.name}</Typography>
+                      </Stack>
+                      <Switch
+                        checked={integrations.includes(item.name)}
+                        onChange={() =>
+                          integrations.includes(item.name)
+                            ? setIntegrations(
+                                integrations.filter(
+                                  (items) => items !== item.name
+                                )
+                              )
+                            : setIntegrations([...integrations, item.name])
+                        }
+                        name="loading"
+                        color="primary"
+                      />
+                    </>
+                  ))}
+                </Stack>
+              {/* </Stack> */}
+            </Stack>
+          </Stack>
+        </Box>
+        <Stack direction={"row"} justifyContent={"right"} mr={5}>
+          <Button variant="primary" type="submit">
+            submit
+          </Button>
         </Stack>
       </Box>
 

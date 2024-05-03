@@ -1,11 +1,7 @@
 "use client";
-
+import { AiFillCaretRight } from "react-icons/ai"; 
 import React, { useState } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
 import {
   FormControl,
   FormLabel,
@@ -13,6 +9,8 @@ import {
   FormHelperText,
   Box,
   Grid,
+  Button,
+  Stack
 } from "@mui/material";
 import { useFormik } from "formik";
 import CustomizedSnackbars from "../component/snackbar";
@@ -144,9 +142,22 @@ const Login = () => {
                       </FormHelperText>
                     )}
                   </FormControl>
-                  <Button variant="primary w-100 mt-2" type="submit">
+                  <Stack direction='row' justifyContent={'center'}>
+
+                  <Button
+                    sx={{
+                      bgcolor: "#DE135E",
+                      color: "white",
+                      fontWeight: "800",
+                      px:3,
+                      '&:hover': { bgcolor: '#DE135E' } 
+                    }}
+                    endIcon={<AiFillCaretRight/>}
+                    type="submit"
+                    >
                     Login
                   </Button>
+                    </Stack>
                 </form>
               </Box>
             </div>
