@@ -55,6 +55,9 @@ const Login = () => {
           severity: "success",
           open: true,
         });
+        if(res.email){
+          window.localStorage.setItem('email', res.email)
+        }
         setTimeout(() => {
           router.push("/rollup");
         }, 1500);

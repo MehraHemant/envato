@@ -1,5 +1,5 @@
-import bcrypt from "bcryptjs";
 import { connectDB } from "../../../../lib/mongodb";
+import { sendMail } from "../constant";
 
 export async function POST(req, res) {
   try {
@@ -12,6 +12,34 @@ export async function POST(req, res) {
       data,
     });
 
+    let trData = "";
+    for (let key in data) {
+      trData += `
+      <tr>
+      <td>${key}</td>
+      <td>${data[key]}</td>
+    </tr>
+      `;
+    }
+    let table = `
+    <table border="1">
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+   ${trData}
+  </tbody>
+</table>
+    `;
+    await sendMail(
+      data.email,
+      "Rollup details submitted",
+      "",
+      "Hi congrats !, You recently submitted the rollup details." + table
+    );
     if (result.insertedId) {
       return Response.json({
         status: true,

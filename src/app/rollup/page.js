@@ -30,12 +30,13 @@ export default function Rollup() {
   });
   const [integrations, setIntegrations] = useState([]);
   const handleSubmit = async () => {
+    const email = window.localStorage.getItem('email')
     const response = await fetch("/api/rollup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ integrations, ...formData }),
+      body: JSON.stringify({ integrations, ...formData, email }),
     });
     response.json().then((res) => {
       if (!res.status) {
