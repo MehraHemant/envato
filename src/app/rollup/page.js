@@ -16,6 +16,10 @@ import {
 import { useState } from "react";
 import CustomizedSnackbars from "../component/snackbar";
 import { config } from "../constant";
+import Link from "next/link";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useRouter } from "next/navigation";
+
 export default function Rollup() {
   const [formData, setFormData] = useState({
     enviroment: "",
@@ -28,9 +32,14 @@ export default function Rollup() {
     severity: "success",
     open: false,
   });
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.back();
+  };
   const [integrations, setIntegrations] = useState([]);
   const handleSubmit = async () => {
-    const email = window.localStorage.getItem('email')
+    const email = window.localStorage.getItem("email");
     const response = await fetch("/api/rollup", {
       method: "POST",
       headers: {
@@ -59,13 +68,15 @@ export default function Rollup() {
   };
   return (
     <>
-      <Header />
       <CustomizedSnackbars msgData={snackbar} setMsgData={setSnackbar} />
       <Box
         component="section"
         sx={{ p: 2, mx: "auto", mt: 15 }}
         width={{ xs: "90%", md: "70%" }}
       >
+        <Link href="" onClick={handleGoBack}>
+          <ArrowBackIosIcon /> Back
+        </Link>
         <Box
           component="section"
           sx={{
@@ -219,41 +230,25 @@ export default function Rollup() {
             </Grid>
             <Grid item xs={7}>
               <Stack direction={"row"} gap={2}>
-                <Box
-                  sx={{
-                    cursor: "pointer",
-                    borderRadius: 6,
-                    py: 1,
-                    px: 2,
-                    border: "1px solid #505050",
-                    background: formData.enviornment == "mainnet" && "#505050",
-                    color: formData.enviroment == "mainnet" && "white",
-                  }}
-                  onClick={() =>
-                    setFormData({ ...formData, enviroment: "mainnet" })
-                  }
-                >
-                  Mainnet
-                </Box>
-                <Box
-                  sx={{
-                    cursor: "pointer",
-                    borderRadius: 6,
-                    py: 1,
-                    px: 2,
-                    border: "1px solid #505050",
-                    background:
-                      formData.enviroment == "testnet"
-                        ? "#505050"
-                        : "transparent",
-                    color: formData.enviroment == "testnet" && "white",
-                  }}
-                  onClick={() =>
-                    setFormData({ ...formData, enviroment: "testnet" })
-                  }
-                >
-                  Testnet
-                </Box>
+                {config.rollup.enviroment.map((item, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      cursor: "pointer",
+                      borderRadius: 6,
+                      py: 1,
+                      px: 2,
+                      border: "1px solid #505050",
+                      background: formData.enviroment == item && "#505050",
+                      color: formData.enviroment == item && "white",
+                    }}
+                    onClick={() =>
+                      setFormData({ ...formData, enviroment: item })
+                    }
+                  >
+                    {item}
+                  </Box>
+                ))}
               </Stack>
             </Grid>
           </Grid>
@@ -276,7 +271,6 @@ export default function Rollup() {
               </Typography>
             </Box>
             <Stack direction={"row"} flexWrap={"wrap"}>
-              {/* <Stack direction={"row"} width={'100%'} flexWrap={'wrap'}> */}
               <Stack
                 direction={"row"}
                 justifyContent={"space-between"}
@@ -309,7 +303,6 @@ export default function Rollup() {
                   </>
                 ))}
               </Stack>
-              {/* </Stack> */}
             </Stack>
           </Stack>
         </Box>

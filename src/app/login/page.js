@@ -59,7 +59,7 @@ const Login = () => {
           window.localStorage.setItem('email', res.email)
         }
         setTimeout(() => {
-          router.push("/rollup");
+          router.push("/dashboard");
         }, 1500);
       }
     });

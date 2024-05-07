@@ -55,7 +55,7 @@ const Signup = () => {
           open: true,
         });
         setTimeout(() => {
-          router.push("/rollup");
+          router.push("/dashboard");
         }, 1500);
       }
     });

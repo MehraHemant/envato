@@ -1,5 +1,6 @@
 export const config = {
     rollup: {
+      enviroment: ['Mainnet', 'Testnet', 'Devnet'],
       framework: [
         {
           name: "OP Stack",

@@ -9,7 +9,7 @@ export async function POST(req, res) {
     console.log("Connected to MongoDB");
 
     const result = await db.collection("rollup").insertOne({
-      data,
+      ...data,
     });
 
     let trData = "";
