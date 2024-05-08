@@ -11,6 +11,7 @@ import {
   Grid,
   Button,
   Stack,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import CustomizedSnackbars from "../component/snackbar";
@@ -55,11 +56,11 @@ const Login = () => {
           severity: "success",
           open: true,
         });
-        if(res.email){
-          window.localStorage.setItem('email', res.email)
+        if (res.email) {
+          window.localStorage.setItem("email", res.email);
         }
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/dashboard", { shallow: true });
         }, 1500);
       }
     });
@@ -70,7 +71,7 @@ const Login = () => {
       <CustomizedSnackbars msgData={snackbar} setMsgData={setSnackbar} />
       <Box className="" style={{ height: "100vh" }}>
         <Grid container sx={{ height: "100vh", spacing: "50px" }}>
-          <Grid item xs={6}>
+          <Grid item md={6} display={{ xs: "none", md: "block" }}>
             <Box
               sx={{
                 position: "relative",
@@ -115,12 +116,41 @@ const Login = () => {
               </Box>
             </Box>
           </Grid>
-          <Grid item xs={6} style={{ height: "100%" }}>
+          <Grid item xs={12} md={6} style={{ height: "100%" }}>
             <div
               className="formSide d-flex align-items-center justify-content-center"
               style={{ height: "100%" }}
             >
               <Box sx={{ maxWidth: 350, width: "90%" }}>
+                <Stack
+                  display={{ xs: "flex", md: "none" }}
+                  gap={6}
+                  direction={"column"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Stack alignItems={"center"}>
+                    <Box
+                      component={"img"}
+                      src={"/assets/img/logo/logo.png"}
+                      height={"100px"}
+                    />
+                    <Typography variant="h4" color="white">
+                      Sign in
+                    </Typography>
+                  </Stack>
+
+                  <Typography
+                    variant="body1"
+                    color={"white"}
+                    textAlign={"center"}
+                    mb={5}
+                  >
+                    Deploy production-grade & fully-managed OP Stack, Arbitrum
+                    or Polygon CDK Rollups including all the web3 infra services
+                    you need
+                  </Typography>
+                </Stack>
                 <form className="frmp pt-3" onSubmit={formik.handleSubmit}>
                   <FormControl fullWidth sx={{ marginBottom: 2, gap: 0.7 }}>
                     <FormLabel
