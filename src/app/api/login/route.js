@@ -1,5 +1,6 @@
 import { connectDB } from "../../../../lib/mongodb";
 import bcrypt from 'bcryptjs';
+import jwt from "jsonwebtoken";
 
 export async function POST(req, res) {
   try {
@@ -11,10 +12,14 @@ export async function POST(req, res) {
     if (user) {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
+        const token = jwt.sign({ email }, "secret", {
+          expiresIn: "4h",
+        });
         return Response.json({
           status: true,
           message: "Login successful",
           email: user.email,
+          token
         });
       } else {
         return Response.json({

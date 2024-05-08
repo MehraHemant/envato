@@ -34,6 +34,13 @@ const Signup = () => {
   });
 
   async function handleSubmit(values) {
+    if(!values.email || !values.password){
+      return setSnackbar({
+        message: "All fields are mandatory.",
+        severity: "error",
+        open: true,
+      });
+    }
     const response = await fetch("/api/signup", {
       method: "POST",
       headers: {
@@ -55,7 +62,7 @@ const Signup = () => {
           open: true,
         });
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/login");
         }, 1500);
       }
     });
