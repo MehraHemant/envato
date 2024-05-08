@@ -36,6 +36,13 @@ const Login = () => {
   });
 
   async function handleSubmit(values) {
+    if(!values.email || !values.password){
+      return setSnackbar({
+        message: "All fields are mandatory.",
+        severity: "error",
+        open: true,
+      });
+    }
     const response = await fetch("/api/login", {
       method: "POST",
       headers: {
@@ -58,6 +65,9 @@ const Login = () => {
         });
         if (res.email) {
           window.localStorage.setItem("email", res.email);
+        }
+        if(res.token){
+          document.cookie = "token=" + res.token;
         }
         setTimeout(() => {
           router.push("/dashboard", { shallow: true });
