@@ -19,6 +19,7 @@ import { config } from "../constant";
 import Link from "next/link";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useRouter } from "next/navigation";
+import Header2 from "../component/header2"
 
 export default function Rollup() {
   const [formData, setFormData] = useState({
@@ -68,6 +69,7 @@ export default function Rollup() {
   };
   return (
     <>
+    <Header2/>
       <CustomizedSnackbars msgData={snackbar} setMsgData={setSnackbar} />
       <Box
         component="section"
@@ -312,7 +314,6 @@ export default function Rollup() {
           </Button>
         </Stack>
       </Box>
-
       <Footer />
     </>
   );

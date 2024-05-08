@@ -17,6 +17,8 @@ import CardContent from "@mui/material/CardContent";
 import { useMediaQuery } from "@mui/material";
 import { TabList } from "@mui/lab";
 import { useRouter } from "next/navigation";
+import Header2 from "../component/header2";
+
 
 export default function Rollup() {
   const [data, setData] = useState([]);
@@ -24,7 +26,7 @@ export default function Rollup() {
   const router = useRouter();
 
   const navigateToRollupPage = () => {
-    router.push("/rollup");
+    router.push("/rollup", { shallow: true });
   };
   const [enviroments, setEnviroments] = useState(["All"]);
   const [filteredData, setFilteredData] = useState([]);
@@ -68,6 +70,7 @@ export default function Rollup() {
   };
   return (
     <>
+    <Header2/>
       {isMobile ? (
         <Box sx={{ pb: 7 }} ref={ref}>
           <CssBaseline />
