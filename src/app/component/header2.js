@@ -49,7 +49,7 @@ const Header2 = () => {
           >
             <Avatar>H</Avatar>
             <Typography variant="body1" color={"white"}>
-              NAME
+              Guest
             </Typography>
             <BiChevronDown fontSize={24} />
             <Menu

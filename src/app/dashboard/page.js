@@ -70,7 +70,7 @@ export default function Rollup() {
   };
   return (
     <>
-    <Header2/>
+      <Header2 />
       {isMobile ? (
         <Box sx={{ pb: 7 }} ref={ref}>
           <CssBaseline />
@@ -305,7 +305,7 @@ export default function Rollup() {
                               sx={{
                                 maxWidth: 300,
                                 background: "#22242a",
-                                border: "1px solid grey",
+                                border: "1px solid #22242a",
                                 p: 1.5,
                               }}
                             >
@@ -320,10 +320,17 @@ export default function Rollup() {
                                   gutterBottom
                                   variant="h7"
                                   component="div"
+                                  sx={{ color: "grey" }}
                                 >
                                   {item.enviroment}
                                 </Typography>
-                                <Chip label="Requested" color="warning" />
+                                <Chip
+                                  label="Requested"
+                                  sx={{
+                                    background: "#ffff0033",
+                                    color: "yellow",
+                                  }}
+                                />
                               </div>
 
                               <CardContent>
@@ -335,12 +342,20 @@ export default function Rollup() {
                                   {item.rollupName}
                                 </Typography>
                               </CardContent>
+                              <div
+                                style={{
+                                  background: "#9fa0ab",
+                                  width: "100%",
+                                  height: "1px",
+                                }}
+                              ></div>
                               <CardActions>
                                 <Button
                                   sx={{
                                     width: "100%",
                                     color: "white",
-                                    backgroundColor: "#550505", // Default background color
+                                    textTransform: "none", // Display text in normal case
+                                    border: "1px solid grey", // Default background color
                                     "&:hover": {
                                       backgroundColor: "red", // Background color on hover
                                     },

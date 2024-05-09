@@ -62,7 +62,7 @@ export default function Rollup() {
           open: true,
         });
         setTimeout(() => {
-          window.location.reload();
+          router.push('/dashboard')
         }, 1500);
       }
     });
